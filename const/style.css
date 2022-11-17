@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --brown-color: #2E2A24;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header {
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+}
+main {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.elem-list {
+    background-color: rgb(236, 236, 236);
+    display: flex;
+    padding: 12px;
+    gap: 12px;
+}
+.elem-list p {
+    width: 100%;
+}
+.divide {
+    padding: 12px;
+}
+
+.icon {
+    display: block;
+}
