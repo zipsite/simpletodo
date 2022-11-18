@@ -16,7 +16,7 @@ hbs.registerHelper("get-non-complete-task", () => {
     for (let elem of jsonTask) {
         if (elem.check == false) {
             result += `<div id="${elem.id}" class="elem-list">
-                        <div class="checkbox">
+                        <div class="checkbox false">
                             <img src="/access/icon/icon-uncheck.png" alt="" class="icon">
                         </div>
                         <p class="elem-text">${elem.text}</p>
@@ -36,7 +36,7 @@ hbs.registerHelper("get-complete-task", () => {
     for (let elem of jsonTask) {
         if (elem.check == true) {
             result += `<div id="${elem.id}" class="elem-list">
-                        <div class="checkbox">
+                        <div class="checkbox true">
                             <img src="/access/icon/icon-check.png" alt="" class="icon">
                         </div>
                         <p class="elem-text">${elem.text}</p>
@@ -139,7 +139,7 @@ app.put('/api/tasks', jsonParser, function (inp, out) {
     }
 
     if (task) {
-        task.age = taskCheck;
+        task.check = taskCheck;
 
         fs.writeFileSync('db.json', JSON.stringify(tasks));
         out.send(task);
