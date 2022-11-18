@@ -1,12 +1,13 @@
 const express = require("express");
 const hbs = require("hbs");
-let bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const fs = require("fs");
+const { isSet } = require("util/types");
 
 const app = express();
 let jsonParser = bodyParser.json();
-hbs.registerPartials(__dirname + "/views/partials");
 
+hbs.registerPartials(__dirname + "/views/partials");
 
 app.set("view engine", "hbs");
 
@@ -56,23 +57,17 @@ app.get("/", (inp, out) => {
 
 app.use("/access", express.static(__dirname + "/access"));
 
-app.get('/api/tasks/', function (inp, out) {
-    let users = JSON.parse(fs.readFileSync('db.json', 'utf8'));
-    out.send(users);
-  })
-
 app.get('/api/tasks/:id', function (inp, out) {
-    var taskId = inp.params.id;
+    let taskId = inp.params.id;
     let tasks = JSON.parse(fs.readFileSync('db.json', 'utf8'));
-    let task;
 
+    let task;
     for (let i = 0; i < tasks.length; i++) {
         if (tasks[i].id == taskId) {
             task = tasks[i];
             break;
         }
     }
-    // отправляем пользователя
     if (task) {
         out.send(task)
     } else {
@@ -88,13 +83,12 @@ app.post('/api/tasks', jsonParser, (inp, out) => {
 
     let tasks = JSON.parse(fs.readFileSync('db.json', 'utf8'));
 
-    let taskId = Math.max.apply(
-        Math,
-        tasks.map(function (o) {
-            return o.id;
-        })
-    );
-    task.id = taskId + 1;
+    let taskId = 0;
+    for(let i = 0; i < tasks.length; i++) {
+            taskId = taskId > tasks[i].id ? taskId : tasks[i].id; 
+    }
+
+    task.id = isFinite ? taskId + 1 : 0;
 
     tasks.push(task);
 
